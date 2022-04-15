@@ -66,8 +66,8 @@ public class AvatarServiceImpl implements AvatarService {
     }
 
     @Override
-    public Avatar findAvatar(Long studentId) {
-        return avatarRepository.findAvatarById(studentId).orElse(new Avatar());
+    public Avatar findAvatar(Long avatarId) {
+        return avatarRepository.findAvatarById(avatarId).orElse(new Avatar());
     }
 
     private byte[] generateImagePreview(Path filePath) throws IOException {

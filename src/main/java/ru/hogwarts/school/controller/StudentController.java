@@ -13,9 +13,7 @@ import ru.hogwarts.school.service.AvatarService;
 import ru.hogwarts.school.service.StudentService;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
@@ -79,12 +77,14 @@ public class StudentController {
 
         Path path = Path.of(avatar.getFilePath());
         try (InputStream is = Files.newInputStream(path);
-             OutputStream os = response.getOutputStream()
+             OutputStream os = response.getOutputStream();
+             BufferedInputStream bis = new BufferedInputStream(is, 1024);
+             BufferedOutputStream bos = new BufferedOutputStream(os, 1024)
         ) {
             response.setContentType(avatar.getMediaType());
             response.setContentLength((int) avatar.getFileSize());
             response.setStatus(200);
-            is.transferTo(os);
+            bis.transferTo(bos);
         }
     }
 
