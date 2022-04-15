@@ -33,7 +33,6 @@ public class Student {
         return faculty;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
