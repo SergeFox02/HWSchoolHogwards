@@ -71,6 +71,12 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(avatar.getData());
     }
 
+    @GetMapping(value = "/avatars")
+    public ResponseEntity<Collection<Avatar>> listOfAvatars(@RequestParam("page") Integer pageNumber,
+                                                            @RequestParam("size") Integer pageSize) {
+        return ResponseEntity.ok(avatarService.getAllAvatars(pageNumber, pageSize));
+    }
+
     @GetMapping(value = "/{id}/avatar")
     public void downloadAvatar(@PathVariable Long id, HttpServletResponse response) throws IOException {
         Avatar avatar = avatarService.findAvatar(id);
@@ -86,6 +92,21 @@ public class StudentController {
             response.setStatus(200);
             bis.transferTo(bos);
         }
+    }
+
+    @GetMapping(value = "/amount")
+    public Long getAmountOfStudents() {
+        return studentService.getAmountOfStudents();
+    }
+
+    @GetMapping(value = "average-age")
+    public Double getAverageAge() {
+        return studentService.getAverageAge();
+    }
+
+    @GetMapping(value = "/five-last-student")
+    public Collection<Student> getFiveLastStudents() {
+        return studentService.getFiveLastStudents();
     }
 
     @PostMapping(value = "/{id}/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

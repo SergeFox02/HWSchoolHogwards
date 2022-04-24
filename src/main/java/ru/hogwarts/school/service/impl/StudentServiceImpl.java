@@ -61,4 +61,19 @@ public class StudentServiceImpl implements StudentService {
     public Faculty findFacultyOfStudent(long id) {
         return studentRepository.getById(id).getFaculty();
     }
+
+    @Override
+    public long getAmountOfStudents() {
+        return studentRepository.getAmountOfStudents();
+    }
+
+    @Override
+    public double getAverageAge() {
+        return studentRepository.getAverageAge();
+    }
+
+    @Override
+    public Collection<Student> getFiveLastStudents() {
+        return studentRepository.getFiveLastStudents();
+    }
 }
