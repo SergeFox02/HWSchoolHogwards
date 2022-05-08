@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.StudentRepository;
@@ -18,9 +17,6 @@ import java.util.stream.Collectors;
 public class StudentServiceImpl implements StudentService {
 
     Logger logger = LoggerFactory.getLogger(AvatarService.class);
-
-    @Autowired
-    RestTemplate restTemplate;
 
     @Autowired
     private final StudentRepository studentRepository;
