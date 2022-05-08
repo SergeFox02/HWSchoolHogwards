@@ -2,13 +2,11 @@ package ru.hogwarts.school.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.model.Faculty;
@@ -30,9 +28,6 @@ public class StudentController {
     private final AvatarService avatarService;
 
     Logger logger = LoggerFactory.getLogger(AvatarService.class);
-
-    @Autowired
-    RestTemplate restTemplate;
 
     public StudentController(StudentService studentService, AvatarService avatarService) {
         this.studentService = studentService;
