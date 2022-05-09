@@ -19,6 +19,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.OptionalDouble;
 
 @RestController
 @RequestMapping("/student")
@@ -111,6 +112,16 @@ public class StudentController {
     @GetMapping(value = "/five-last-student")
     public Collection<Student> getFiveLastStudents() {
         return studentService.getFiveLastStudents();
+    }
+
+    @GetMapping(value = "/filter-start-with-A")
+    public Collection<String> filterStudentsStartNameWithA() {
+        return studentService.filterStudentsBuOrderStartNameA();
+    }
+
+    @GetMapping(value = "/average-age-by-stream")
+    public ResponseEntity<OptionalDouble> averageAge() {
+        return ResponseEntity.ok(studentService.averageAge());
     }
 
     @PostMapping(value = "/{id}/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

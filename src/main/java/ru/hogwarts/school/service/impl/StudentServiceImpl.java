@@ -11,7 +11,9 @@ import ru.hogwarts.school.service.AvatarService;
 import ru.hogwarts.school.service.StudentService;
 
 import java.util.Collection;
+import java.util.OptionalDouble;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -91,5 +93,30 @@ public class StudentServiceImpl implements StudentService {
     public Collection<Student> getFiveLastStudents() {
         logger.info("Was invoked method for get five last students by id");
         return studentRepository.getFiveLastStudents();
+    }
+
+    @Override
+    public Collection<String> filterStudentsBuOrderStartNameA() {
+        return studentRepository.findAll().stream()
+                .filter(s -> s.getName().startsWith("A"))
+                .map(s -> s.getName().toUpperCase())
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public OptionalDouble averageAge() {
+        return studentRepository.findAll().stream()
+                .mapToDouble(s -> (double) s.getAge())
+                .average();
+    }
+
+    @Override
+    public int findValue() {
+        int sum = Stream.iterate(1, a -> a + 1)
+                .limit(1_000_000)
+                .parallel()
+                .reduce(0, (a, b) -> a + b );
+        return sum;
     }
 }
