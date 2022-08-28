@@ -32,21 +32,33 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
-    public Faculty findFaculty(long id) {
+    public Faculty findFaculty(long id){
         logger.info("Was invoked method for find faculty by id = {}", id);
+        if (facultyRepository.findById(id).isEmpty()){
+            return null;
+        }
         return facultyRepository.findById(id).get();
     }
 
     @Override
     public Faculty editFaculty(Faculty faculty) {
-        logger.info("Was invoked method for edit faculty");
+        logger.info("Was invoked method for edit faculty = {}", faculty);
+        if (facultyRepository.findById(faculty.getId()).isEmpty()){
+            return null;
+        }
         return facultyRepository.save(faculty);
     }
 
     @Override
-    public void deleteFaculty(long id) {
-        logger.info("Was invoked method for delete faculty by id = {}", id);
+    public Faculty deleteFaculty(long id) {
+        if (facultyRepository.findById(id).isEmpty()){
+            logger.info("Faculty with id {} is not found", id);
+            return null;
+        }
+        Faculty deleteFaculty = facultyRepository.findById(id).get();
         facultyRepository.deleteById(id);
+        logger.info("Faculty with id = {} is deleted", id);
+        return deleteFaculty;
     }
 
     @Override
