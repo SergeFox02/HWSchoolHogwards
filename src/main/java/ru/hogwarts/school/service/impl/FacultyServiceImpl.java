@@ -2,7 +2,6 @@ package ru.hogwarts.school.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
@@ -18,7 +17,6 @@ public class FacultyServiceImpl implements FacultyService {
 
     Logger logger = LoggerFactory.getLogger(AvatarService.class);
 
-    @Autowired
     private final FacultyRepository facultyRepository;
 
     public FacultyServiceImpl(FacultyRepository facultyRepository) {
