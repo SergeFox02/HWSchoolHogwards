@@ -16,7 +16,7 @@ public class MainController {
     Logger logger = LoggerFactory.getLogger(MainController.class);
 
     @Operation(
-            summary = "Welcome message in School Hogwards",
+            summary = "Welcome message in School Hogwarts",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -25,7 +25,7 @@ public class MainController {
                                     examples = @ExampleObject(value = "string"))
                     )
             },
-            tags = "School Hogwards (home page)"
+            tags = "School Hogwarts (home page)"
     )
     @GetMapping
     public String helloMessage() {
