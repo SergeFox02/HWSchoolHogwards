@@ -36,7 +36,8 @@ public class FacultyController {
                             description = "Finding faculties",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Collection.class))
+                                    schema = @Schema(implementation = Collection.class)
+                            )
                     )
             },
             tags = TAG_FACULTY
@@ -55,7 +56,8 @@ public class FacultyController {
                             description = "Found faculty:",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Faculty.class))
+                                    schema = @Schema(implementation = Faculty.class)
+                            )
                     ),
                     @ApiResponse(
                             responseCode = "404",
@@ -86,7 +88,8 @@ public class FacultyController {
                             description = "Filter faculty by color:",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Faculty.class))
+                                    schema = @Schema(implementation = Faculty.class)
+                            )
                     )
             },
             tags = TAG_FACULTY
@@ -105,7 +108,8 @@ public class FacultyController {
                             description = "Filter faculty by and/or color:",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Faculty.class))
+                                    schema = @Schema(implementation = Faculty.class)
+                            )
                     )
             },
             tags = TAG_FACULTY
@@ -125,7 +129,8 @@ public class FacultyController {
                             description = "Finding students of faculty",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Collection.class))
+                                    schema = @Schema(implementation = Collection.class)
+                            )
                     )
             },
             tags = TAG_FACULTY
@@ -144,7 +149,8 @@ public class FacultyController {
                             description = "Find longest name of Faculties",
                             content = @Content(
                                     mediaType = MediaType.TEXT_PLAIN_VALUE,
-                                    schema = @Schema(implementation = String.class))
+                                    schema = @Schema(implementation = String.class)
+                            )
                     )
             },
             tags = TAG_FACULTY
@@ -161,7 +167,8 @@ public class FacultyController {
                     description = "Information about new Faculty",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = Faculty.class))
+                            schema = @Schema(implementation = Faculty.class)
+                    )
             ),
             responses = {
                     @ApiResponse(
@@ -169,7 +176,8 @@ public class FacultyController {
                             description = "Adding Faculty",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Faculty.class))
+                                    schema = @Schema(implementation = Faculty.class)
+                            )
                     )
             },
             tags = TAG_FACULTY
@@ -186,7 +194,8 @@ public class FacultyController {
                     description = "Edit information about faculty",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = Faculty.class))
+                            schema = @Schema(implementation = Faculty.class)
+                    )
             ),
             responses = {
                     @ApiResponse(
@@ -194,7 +203,8 @@ public class FacultyController {
                             description = "Update information about faculty",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Faculty.class))
+                                    schema = @Schema(implementation = Faculty.class)
+                            )
                     ),
                     @ApiResponse(
                             responseCode = "400",
@@ -225,7 +235,8 @@ public class FacultyController {
                             description = "Faculty is delete from Database",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Faculty.class))
+                                    schema = @Schema(implementation = Faculty.class)
+                            )
                     ),
                     @ApiResponse(
                             responseCode = "404",
