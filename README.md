@@ -1,6 +1,6 @@
-# "School Hogwards little helper"
+# "School Hogwarts little helper"
 
-## School Hogwards DataBase
+## School Hogwarts DataBase
 
 *ABOUT*
 
