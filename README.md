@@ -1,10 +1,11 @@
 # "School Hogwarts little helper"
 
-## School Hogwarts DataBase
+## Service for working with Hogwarts School
 
 *ABOUT*
 
-This application is used to work with the Hogwarts student database.
+
+This REST API application is used to work with the database of students and faculties of the Hogwarts school.
 
 *USES*
 
