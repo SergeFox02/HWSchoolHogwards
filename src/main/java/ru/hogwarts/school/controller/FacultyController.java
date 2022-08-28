@@ -20,6 +20,7 @@ import java.util.Collection;
 @RequestMapping("/faculty")
 public class FacultyController {
 
+    private final String TAG_FACULTY = "Faculty";
     private final FacultyService facultyService;
     Logger logger = LoggerFactory.getLogger(FacultyController.class);
 
@@ -38,7 +39,7 @@ public class FacultyController {
                                     schema = @Schema(implementation = Collection.class))
                     )
             },
-            tags = "Faculty"
+            tags = TAG_FACULTY
     )
     @GetMapping
     public ResponseEntity<Collection<Faculty>> getAllFaculties() {
@@ -65,7 +66,7 @@ public class FacultyController {
                             )
                     )
             },
-            tags = "Faculty"
+            tags = TAG_FACULTY
     )
     @GetMapping("{id}")
     public ResponseEntity<Faculty> findFaculty(@PathVariable Long id) {
@@ -88,7 +89,7 @@ public class FacultyController {
                                     schema = @Schema(implementation = Faculty.class))
                     )
             },
-            tags = "Faculty"
+            tags = TAG_FACULTY
     )
     @GetMapping("/filter/{color}")
     public Collection<Faculty> filterFacultiesByColor(@PathVariable String color) {
@@ -107,7 +108,7 @@ public class FacultyController {
                                     schema = @Schema(implementation = Faculty.class))
                     )
             },
-            tags = "Faculty"
+            tags = TAG_FACULTY
     )
     @GetMapping("/filter")
     public Collection<Faculty> filterFacultyByColorOrName(@RequestParam(required = false) String color,
@@ -127,7 +128,7 @@ public class FacultyController {
                                     schema = @Schema(implementation = Collection.class))
                     )
             },
-            tags = "Faculty"
+            tags = TAG_FACULTY
     )
     @GetMapping("/findStudentsOfFaculty/{id}")
     public Collection<Student> findStudentsOfFaculty(@PathVariable Long id) {
@@ -146,7 +147,7 @@ public class FacultyController {
                                     schema = @Schema(implementation = String.class))
                     )
             },
-            tags = "Faculty"
+            tags = TAG_FACULTY
     )
     @GetMapping("/longest-name")
     public String longestNameOfFaculty() {
@@ -171,7 +172,7 @@ public class FacultyController {
                                     schema = @Schema(implementation = Faculty.class))
                     )
             },
-            tags = "Faculty"
+            tags = TAG_FACULTY
     )
     @PostMapping
     public Faculty createFaculty(@RequestBody Faculty faculty) {
@@ -204,7 +205,7 @@ public class FacultyController {
                             )
                     )
             },
-            tags = "Faculty"
+            tags = TAG_FACULTY
     )
     @PutMapping
     public ResponseEntity<Faculty> editFaculty(@RequestBody Faculty faculty) {
@@ -235,7 +236,7 @@ public class FacultyController {
                             )
                     )
             },
-            tags = "Faculty"
+            tags = TAG_FACULTY
     )
     @DeleteMapping("{id}")
     public ResponseEntity<Faculty> deleteFaculty(@PathVariable Long id) {
@@ -246,4 +247,5 @@ public class FacultyController {
         }
         return ResponseEntity.ok(deleteFaculty);
     }
+
 }
