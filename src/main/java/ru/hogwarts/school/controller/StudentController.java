@@ -48,7 +48,8 @@ public class StudentController {
                             description = "Found students",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Collection.class))
+                                    schema = @Schema(implementation = Collection.class)
+                            )
                     )
             },
             tags = TAG_STUDENT
@@ -67,7 +68,8 @@ public class StudentController {
                             description = "Found student:",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Student.class))
+                                    schema = @Schema(implementation = Student.class)
+                            )
                     ),
                     @ApiResponse(
                             responseCode = "404",
@@ -98,7 +100,8 @@ public class StudentController {
                             description = "Filter students by age:",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Faculty.class))
+                                    schema = @Schema(implementation = Faculty.class)
+                            )
                     )
             },
             tags = TAG_STUDENT
@@ -117,7 +120,8 @@ public class StudentController {
                             description = "Filter students by age between minAge and maxAge:",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Faculty.class))
+                                    schema = @Schema(implementation = Faculty.class)
+                            )
                     )
             },
             tags = TAG_STUDENT
@@ -137,7 +141,8 @@ public class StudentController {
                             description = "Found faculty of student:",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Faculty.class))
+                                    schema = @Schema(implementation = Faculty.class)
+                            )
                     ),
                     @ApiResponse(
                             responseCode = "404",
@@ -160,8 +165,31 @@ public class StudentController {
         return ResponseEntity.ok(faculty);
     }
 
+    @Operation(
+            summary = "Find avatar in Database by id",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Found avatar in Database:",
+                            content = @Content(
+                                    mediaType = MediaType.IMAGE_JPEG_VALUE,
+                                    schema = @Schema(implementation = Avatar.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "If avatar not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
+                    )
+            },
+            tags = TAG_STUDENT
+    )
     @GetMapping(value = "/{id}/avatar/dataBase")
     public ResponseEntity<byte[]> downloadAvatar(@PathVariable Long id) {
+        logger.info("Call method downloadAvatar");
         Avatar avatar = avatarService.findAvatar(id);
 
         HttpHeaders headers = new HttpHeaders();
@@ -171,14 +199,52 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(avatar.getData());
     }
 
+    @Operation(
+            summary = "Get all avatars of students",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Found avatars:",
+                            content = @Content(
+                                    mediaType = MediaType.IMAGE_JPEG_VALUE,
+                                    schema = @Schema(implementation = Avatar.class)
+                            )
+                    )
+            },
+            tags = TAG_STUDENT
+    )
     @GetMapping(value = "/avatars")
     public ResponseEntity<Collection<Avatar>> listOfAvatars(@RequestParam("page") Integer pageNumber,
                                                             @RequestParam("size") Integer pageSize) {
+        logger.info("Call method listOfAvatars");
         return ResponseEntity.ok(avatarService.getAllAvatars(pageNumber, pageSize));
     }
 
+    @Operation(
+            summary = "Find avatar by id",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Found avatar by id:",
+                            content = @Content(
+                                    mediaType = MediaType.IMAGE_JPEG_VALUE,
+                                    schema = @Schema(implementation = Avatar.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "If avatar not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
+                    )
+            },
+            tags = TAG_STUDENT
+    )
     @GetMapping(value = "/{id}/avatar")
     public void downloadAvatar(@PathVariable Long id, HttpServletResponse response) throws IOException {
+        logger.info("Call method downloadAvatar");
         Avatar avatar = avatarService.findAvatar(id);
 
         Path path = Path.of(avatar.getFilePath());
@@ -194,33 +260,142 @@ public class StudentController {
         }
     }
 
+    @Operation(
+            summary = "Get amount of students",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Amount of students:",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Long.class)
+                            )
+                    )
+            },
+            tags = TAG_STUDENT
+    )
     @GetMapping(value = "/amount")
     public Long getAmountOfStudents() {
+        logger.info("Call method getAmountOfStudents");
         return studentService.getAmountOfStudents();
     }
 
+    @Operation(
+            summary = "Calculate average age of students",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Average age of students:",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Double.class)
+                            )
+                    )
+            },
+            tags = TAG_STUDENT
+    )
     @GetMapping(value = "average-age")
     public Double getAverageAge() {
+        logger.info("Call method getAverageAge");
         return studentService.getAverageAge();
     }
 
+    @Operation(
+            summary = "Get five last students",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Five last students",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Collection.class)
+                            )
+                    )
+            },
+            tags = TAG_STUDENT
+    )
     @GetMapping(value = "/five-last-student")
     public Collection<Student> getFiveLastStudents() {
+        logger.info("Call method getFiveLastStudents");
         return studentService.getFiveLastStudents();
     }
 
+    @Operation(
+            summary = "filter students whose name starts with the letter \"A\"",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "students whose name starts with the letter \"A\"",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Collection.class)
+                            )
+                    )
+            },
+            tags = TAG_STUDENT
+    )
     @GetMapping(value = "/filter-start-with-A")
     public Collection<String> filterStudentsStartNameWithA() {
+        logger.info("Call method filterStudentsStartNameWithA");
         return studentService.filterStudentsBuOrderStartNameA();
     }
 
+    @Operation(
+            summary = "Calculate average age of students by Stream",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Average age of students:",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Double.class)
+                            )
+                    )
+            },
+            tags = TAG_STUDENT
+    )
     @GetMapping(value = "/average-age-by-stream")
-    public ResponseEntity<OptionalDouble> averageAge() {
+    public ResponseEntity<OptionalDouble> getAverageAgeByStream() {
+        logger.info("Call method getAverageAgeByStream");
         return ResponseEntity.ok(studentService.averageAge());
     }
 
+    @Operation(
+            summary = "Add avatar of student",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Added avatar",
+                    content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)
+            ),
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Added avatar",
+                            content = @Content(
+                                    mediaType = MediaType.IMAGE_JPEG_VALUE
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "If added photo is to big",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "If not found student",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
+                    )
+            },
+            tags = TAG_STUDENT
+    )
     @PostMapping(value = "/{id}/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> upLoadAvatar(@PathVariable Long id, @RequestParam MultipartFile avatar) throws IOException {
+        logger.info("Call method upLoadAvatar");
         if (avatar.getSize() > 1024 * 300) {
             logger.warn("Warning: avatar is to big");
             return ResponseEntity.badRequest().body("File is to big");
@@ -235,7 +410,8 @@ public class StudentController {
                     description = "Information about new Student",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = Faculty.class))
+                            schema = @Schema(implementation = Faculty.class)
+                    )
             ),
             responses = {
                     @ApiResponse(
@@ -243,7 +419,8 @@ public class StudentController {
                             description = "Adding Student",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Faculty.class))
+                                    schema = @Schema(implementation = Faculty.class)
+                            )
                     )
             },
             tags = TAG_STUDENT
@@ -260,7 +437,8 @@ public class StudentController {
                     description = "Edit information about student",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = Student.class))
+                            schema = @Schema(implementation = Student.class)
+                    )
             ),
             responses = {
                     @ApiResponse(
@@ -268,7 +446,8 @@ public class StudentController {
                             description = "Update information about student",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Student.class))
+                                    schema = @Schema(implementation = Student.class)
+                            )
                     ),
                     @ApiResponse(
                             responseCode = "400",
@@ -299,7 +478,8 @@ public class StudentController {
                             description = "Student is delete from Database",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Student.class))
+                                    schema = @Schema(implementation = Student.class)
+                            )
                     ),
                     @ApiResponse(
                             responseCode = "404",
