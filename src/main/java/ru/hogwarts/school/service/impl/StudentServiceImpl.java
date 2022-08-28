@@ -33,19 +33,31 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student findStudent(long id) {
         logger.info("Was invoked method for find student by id = {}", id);
+        if (studentRepository.findById(id).isEmpty()){
+            return null;
+        }
         return studentRepository.findById(id).get();
     }
 
     @Override
     public Student editStudent(Student student) {
         logger.info("Was invoked method for edit student");
+        if (studentRepository.findById(student.getId()).isEmpty()){
+            return null;
+        }
         return studentRepository.save(student);
     }
 
     @Override
-    public void deleteStudent(long id) {
-        logger.info("Was invoked method for delete student by id = {}", id);
+    public Student deleteStudent(long id) {
+        if (studentRepository.findById(id).isEmpty()){
+            logger.info("Student with id {} is not found", id);
+            return null;
+        }
+        Student deleteStudent = studentRepository.findById(id).get();
         studentRepository.deleteById(id);
+        logger.info("Student with id = {} is deleted", id);
+        return deleteStudent;
     }
 
     @Override
@@ -70,8 +82,11 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Faculty findFacultyOfStudent(long id) {
-        logger.info("Was invoked method for find faculty by id = {} of Student", id);
-        return studentRepository.getById(id).getFaculty();
+        logger.info("Was invoked method for find faculty of Student by id = {} ", id);
+        if (studentRepository.findById(id).isEmpty()){
+            return null;
+        }
+        return studentRepository.findById(id).get().getFaculty();
     }
 
     @Override

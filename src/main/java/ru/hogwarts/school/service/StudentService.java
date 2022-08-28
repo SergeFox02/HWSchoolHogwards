@@ -14,7 +14,7 @@ public interface StudentService {
 
     Student editStudent(Student student);
 
-    void deleteStudent(long id);
+    Student deleteStudent(long id);
 
     Collection<Student> getAllStudents();
 

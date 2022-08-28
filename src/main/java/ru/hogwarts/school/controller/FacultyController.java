@@ -156,7 +156,7 @@ public class FacultyController {
     }
 
     @Operation(
-            summary = "Creat new Faculty",
+            summary = "Create new Faculty",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Information about new Faculty",
                     content = @Content(

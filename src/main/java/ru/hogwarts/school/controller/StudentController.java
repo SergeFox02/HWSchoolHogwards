@@ -1,5 +1,9 @@
 package ru.hogwarts.school.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -25,6 +29,7 @@ import java.util.OptionalDouble;
 @RequestMapping("/student")
 public class StudentController {
 
+    private final String TAG_STUDENT = "Students";
     private final StudentService studentService;
     private final AvatarService avatarService;
 
@@ -35,13 +40,49 @@ public class StudentController {
         this.avatarService = avatarService;
     }
 
+    @Operation(
+            summary = "Get all students in School Hogwarts",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Found students",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Collection.class))
+                    )
+            },
+            tags = TAG_STUDENT
+    )
     @GetMapping
     public ResponseEntity<Collection<Student>> getAllStudents() {
+        logger.info("Call method getAllStudents");
         return ResponseEntity.ok(studentService.getAllStudents());
     }
 
+    @Operation(
+            summary = "Find student by id",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Found student:",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Student.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "If student not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
+                    )
+            },
+            tags = TAG_STUDENT
+    )
     @GetMapping("{id}")
     public ResponseEntity<Student> findStudent(@PathVariable Long id) {
+        logger.info("Call method findStudent");
         Student student = studentService.findStudent(id);
         if (student == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -49,20 +90,74 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
+    @Operation(
+            summary = "Filter students by age",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Filter students by age:",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Faculty.class))
+                    )
+            },
+            tags = TAG_STUDENT
+    )
     @GetMapping("/filter/{age}")
     public Collection<Student> filterStudentsByAge(@PathVariable Integer age) {
+        logger.info("Call method filterStudentsByAge");
         return studentService.filterAgeStudents(age);
     }
 
+    @Operation(
+            summary = "Filter students by age between minAge and maxAge",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Filter students by age between minAge and maxAge:",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Faculty.class))
+                    )
+            },
+            tags = TAG_STUDENT
+    )
     @GetMapping("filter")
     public Collection<Student> filterStudentsByAgeBetween(@RequestParam Integer minAge,
                                                           @RequestParam Integer maxAge) {
+        logger.info("Call method filterStudentsByAgeBetween");
         return studentService.filterAgeStudents(minAge, maxAge);
     }
 
-    @GetMapping("findFaculty/{id}")
-    public Faculty findFacultyOfStudent(@PathVariable Long id) {
-        return studentService.findFacultyOfStudent(id);
+    @Operation(
+            summary = "Find faculty of Student",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Found faculty of student:",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Faculty.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "If student not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
+                    )
+            },
+            tags = TAG_STUDENT
+    )
+    @GetMapping("find-faculty-of-student/{id}")
+    public ResponseEntity<Faculty> findFacultyOfStudent(@PathVariable Long id) {
+        logger.info("Call method findFacultyOfStudent");
+        Faculty faculty = studentService.findFacultyOfStudent(id);
+        if (faculty == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(faculty);
     }
 
     @GetMapping(value = "/{id}/avatar/dataBase")
@@ -134,13 +229,61 @@ public class StudentController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(
+            summary = "Create new Student",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Information about new Student",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = Faculty.class))
+            ),
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Adding Student",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Faculty.class))
+                    )
+            },
+            tags = TAG_STUDENT
+    )
     @PostMapping
     public Student createStudent(@RequestBody Student student) {
+        logger.info("Call method createStudent");
         return studentService.createStudent(student);
     }
 
+    @Operation(
+            summary = "Update information about student",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Edit information about student",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = Student.class))
+            ),
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Update information about student",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Student.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "If student not found in Database, will be received bad request",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
+                    )
+            },
+            tags = TAG_STUDENT
+    )
     @PutMapping
     public ResponseEntity<Student> editStudent(@RequestBody Student student) {
+        logger.info("Call method editStudent");
         Student editStudent = studentService.editStudent(student);
         if (editStudent == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -148,9 +291,35 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
+    @Operation(
+            summary = "Delete student",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Student is delete from Database",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Student.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "If student don't delete, because student not found in Database",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
+                    )
+            },
+            tags = TAG_STUDENT
+    )
     @DeleteMapping("{id}")
     public ResponseEntity<Student> deleteStudent(@PathVariable Long id) {
-        studentService.deleteStudent(id);
-        return ResponseEntity.ok().build();
+        logger.info("Call method deleteStudent");
+        Student deleteStudent = studentService.deleteStudent(id);
+        if (deleteStudent == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(deleteStudent);
     }
+
 }
