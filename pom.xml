@@ -11,8 +11,8 @@
     <groupId>ru.hogwarts</groupId>
     <artifactId>school</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>HWSchoolHogwards</name>
-    <description>HWSchoolHogwards</description>
+    <name>SchoolHogwards</name>
+    <description>SchoolHogwards</description>
     <properties>
         <java.version>11</java.version>
     </properties>
@@ -29,7 +29,7 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.6.7</version>
+<!--            <version>1.6.7</version>-->
         </dependency>
         <dependency>
             <groupId>org.dom4j</groupId>
@@ -64,7 +64,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.8.2</version>
+<!--            <version>5.8.2</version>-->
         </dependency>
         <dependency>
             <groupId>net.minidev</groupId>
