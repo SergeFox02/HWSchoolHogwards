@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-
 import ru.hogwarts.school.controller.StudentController;
 import ru.hogwarts.school.model.Student;
 
@@ -13,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.RequestEntity.delete;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class HwSchoolHogwardsApplicationTests {
+class SchoolHogwartsApplicationTests {
 
     @LocalServerPort
     private int port;
