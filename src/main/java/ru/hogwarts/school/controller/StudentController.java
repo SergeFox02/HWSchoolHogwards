@@ -28,7 +28,7 @@ public class StudentController {
     private final StudentService studentService;
     private final AvatarService avatarService;
 
-    Logger logger = LoggerFactory.getLogger(AvatarService.class);
+    Logger logger = LoggerFactory.getLogger(StudentController.class);
 
     public StudentController(StudentService studentService, AvatarService avatarService) {
         this.studentService = studentService;

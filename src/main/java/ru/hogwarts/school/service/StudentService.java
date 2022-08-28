@@ -34,9 +34,4 @@ public interface StudentService {
 
     OptionalDouble averageAge();
 
-    int findValue();
-
-    void printAllStudentsToConsole();
-
-    void printAllStudentsToConsoleSynchronized();
 }

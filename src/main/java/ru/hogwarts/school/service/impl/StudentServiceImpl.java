@@ -2,7 +2,6 @@ package ru.hogwarts.school.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
@@ -10,21 +9,15 @@ import ru.hogwarts.school.repositories.StudentRepository;
 import ru.hogwarts.school.service.AvatarService;
 import ru.hogwarts.school.service.StudentService;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.OptionalDouble;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class StudentServiceImpl implements StudentService {
 
     Logger logger = LoggerFactory.getLogger(AvatarService.class);
 
-    private List<Student> students;
-
-    @Autowired
     private final StudentRepository studentRepository;
 
     public StudentServiceImpl(StudentRepository studentRepository) {
@@ -115,66 +108,4 @@ public class StudentServiceImpl implements StudentService {
                 .average();
     }
 
-    @Override
-    public int findValue() {
-        int sum = Stream.iterate(1, a -> a + 1)
-                .limit(1_000_000)
-                .parallel()
-                .reduce(0, (a, b) -> a + b );
-        return sum;
-    }
-
-    @Override
-    public void printAllStudentsToConsole() {
-        System.out.println("Print students to console by Threads:");
-        students = new ArrayList<>(studentRepository.findAll());
-
-        printNameOfStudent(0);
-        printNameOfStudent(1);
-
-        new Thread(() -> {
-            printNameOfStudent(2);
-            printNameOfStudent(3);
-        }).start();
-
-        new Thread(() -> {
-            printNameOfStudent(4);
-            printNameOfStudent(5);
-        }).start();
-    }
-
-    @Override
-    public void printAllStudentsToConsoleSynchronized() {
-        System.out.println("Print students to console by Synchronized Threads:");
-        students = new ArrayList<>(studentRepository.findAll());
-
-        printNameOfStudentSynchronized(0);
-        printNameOfStudentSynchronized(1);
-
-        new Thread(() -> {
-            printNameOfStudentSynchronized(2);
-            printNameOfStudentSynchronized(3);
-        }).start();
-
-        new Thread(() -> {
-            printNameOfStudentSynchronized(4);
-            printNameOfStudentSynchronized(5);
-        }).start();
-    }
-
-    private void printNameOfStudent(int numberOfStudent) {
-        System.out.println(numberOfStudent + " " + students.get(numberOfStudent).getName());
-//        String s = "";
-//        for (int i = 0; i < 100_000; i++) {
-//            s += i;
-//        }
-    }
-
-    private synchronized void printNameOfStudentSynchronized(int numberOfStudent) {
-        System.out.println(numberOfStudent + " " + students.get(numberOfStudent).getName());
-//        String s = "";
-//        for (int i = 0; i < 100_000; i++) {
-//            s += i;
-//        }
-    }
 }

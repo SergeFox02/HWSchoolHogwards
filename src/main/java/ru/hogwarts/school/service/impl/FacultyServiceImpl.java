@@ -94,6 +94,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public String longestNameOfFaculty() {
+        logger.info("Was invoked method longestNameOfFaculty");
         return facultyRepository.findAll().stream()
                 .map(Faculty :: getName)
                 .sorted((s1, s2) -> s2.length() - s1.length())
