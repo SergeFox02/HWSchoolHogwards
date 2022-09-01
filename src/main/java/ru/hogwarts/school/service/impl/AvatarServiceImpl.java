@@ -102,4 +102,5 @@ public class AvatarServiceImpl implements AvatarService {
             return baos.toByteArray();
         }
     }
+
 }
