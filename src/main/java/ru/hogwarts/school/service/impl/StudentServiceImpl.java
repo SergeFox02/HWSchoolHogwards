@@ -30,6 +30,13 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.save(student);
     }
 
+    /**
+     * Find student by id
+     * method is used {@link org.springframework.data.jpa.repository.JpaRepository#findById(Object)}
+     *
+     * @param id must not be {@code null}.
+     * @return found student, if student not found return {@code null}.
+     */
     @Override
     public Student findStudent(long id) {
         logger.info("Was invoked method for find student by id = {}", id);
