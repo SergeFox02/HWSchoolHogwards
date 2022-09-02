@@ -102,14 +102,25 @@ public class StudentController {
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = Faculty.class)
                             )
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Bad request, if age <= 0",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = TAG_STUDENT
     )
     @GetMapping("/filter/{age}")
-    public Collection<Student> filterStudentsByAge(@PathVariable Integer age) {
+    public ResponseEntity<Collection<Student>> filterStudentsByAge(@PathVariable Integer age) {
         logger.info("Call method filterStudentsByAge");
-        return studentService.filterAgeStudents(age);
+        if (age == null || age <= 0){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(studentService.filterAgeStudents(age));
     }
 
     @Operation(

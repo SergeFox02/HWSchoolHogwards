@@ -101,6 +101,12 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findAll();
     }
 
+    /**
+     * Filter students by age<br>
+     *
+     * @param age age of students, {@code age > 0}
+     * @return filtered students by age
+     */
     @Override
     public Collection<Student> filterAgeStudents(int age) {
         logger.info("Was invoked method for filter Students by age = {}", age);
