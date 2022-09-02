@@ -2,6 +2,7 @@ package ru.hogwarts.school.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
@@ -24,6 +25,13 @@ public class StudentServiceImpl implements StudentService {
         this.studentRepository = studentRepository;
     }
 
+    /**
+     * Saves the student to the database<br>
+     * method is used {@link org.springframework.data.jpa.repository.JpaRepository#save(Object)}
+     *
+     * @param student created student, must not be {@code null}
+     * @return created student.
+     */
     @Override
     public Student createStudent(Student student) {
         logger.info("Was invoked method for creat student");
@@ -31,7 +39,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     /**
-     * Find student by id
+     * Find student by id<br>
      * method is used {@link org.springframework.data.jpa.repository.JpaRepository#findById(Object)}
      *
      * @param id must not be {@code null}.
@@ -46,6 +54,13 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findById(id).get();
     }
 
+    /**
+     * Edit the student in the database<br>
+     * method is used {@link org.springframework.data.jpa.repository.JpaRepository#save(Object)}
+     *
+     * @param student edit student, must not be {@code null}
+     * @return edit student, if student not found in database return {@code null}
+     */
     @Override
     public Student editStudent(Student student) {
         logger.info("Was invoked method for edit student");
@@ -55,6 +70,13 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.save(student);
     }
 
+    /**
+     * Delete a student from the database<br>
+     * method is used {@link org.springframework.data.jpa.repository.JpaRepository#deleteById(Object)}
+     *
+     * @param id must not be {@code null}
+     * @return deleted student from database, if student not found in database return {@code null}
+     */
     @Override
     public Student deleteStudent(long id) {
         if (studentRepository.findById(id).isEmpty()){
@@ -67,6 +89,12 @@ public class StudentServiceImpl implements StudentService {
         return deleteStudent;
     }
 
+    /**
+     * Get all students from database<br>
+     * method is used {@link JpaRepository#findAll()} (Object)}
+     *
+     * @return All students from database
+     */
     @Override
     public Collection<Student> getAllStudents() {
         logger.info("Was invoked method for get all students");
