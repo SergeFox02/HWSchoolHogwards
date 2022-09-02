@@ -115,6 +115,13 @@ public class StudentServiceImpl implements StudentService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Filter students by age between min age and max age<br>
+     *
+     * @param min age of students, {@code min > 0}
+     * @param max age of students, {@code max >= min}
+     * @return filtered students by age
+     */
     @Override
     public Collection<Student> filterAgeStudents(int min, int max) {
         logger.info("Was invoked method for filter Students by age between {} and {} age", min, max);

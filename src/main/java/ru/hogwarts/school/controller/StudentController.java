@@ -133,15 +133,26 @@ public class StudentController {
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = Faculty.class)
                             )
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Bad request, if minAge <= 0, or/and minAge > maxAge ",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = TAG_STUDENT
     )
     @GetMapping("filter")
-    public Collection<Student> filterStudentsByAgeBetween(@RequestParam Integer minAge,
+    public ResponseEntity<Collection<Student>> filterStudentsByAgeBetween(@RequestParam Integer minAge,
                                                           @RequestParam Integer maxAge) {
         logger.info("Call method filterStudentsByAgeBetween");
-        return studentService.filterAgeStudents(minAge, maxAge);
+        if (minAge == null || maxAge == null || minAge > maxAge){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(studentService.filterAgeStudents(minAge, maxAge));
     }
 
     @Operation(
