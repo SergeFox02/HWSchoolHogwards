@@ -23,6 +23,9 @@ import java.util.Collection;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
+/**
+ * Service for working with avatars of students from school Hogwarts
+ */
 @Service
 @Transactional
 public class AvatarServiceImpl implements AvatarService {
@@ -42,6 +45,13 @@ public class AvatarServiceImpl implements AvatarService {
 
     }
 
+    /**
+     * Upload avatar for student
+     *
+     * @param studentId id of student
+     * @param file of image
+     * @throws IOException if an IO exception
+     */
     @Override
     public void upLoad(Long studentId, MultipartFile file) throws IOException {
         logger.info("Was invoked method for upload avatar of student");
@@ -72,12 +82,25 @@ public class AvatarServiceImpl implements AvatarService {
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
+    /**
+     * Find avatar by {@code id} in database
+     *
+     * @param avatarId id of avatar
+     * @return avatar by id
+     */
     @Override
     public Avatar findAvatar(Long avatarId) {
         logger.info("Was invoked method for find avatar bu id = {}", avatarId);
         return avatarRepository.findAvatarById(avatarId).orElse(new Avatar());
     }
 
+    /**
+     * Get all avatars from database, by page and quality on page
+     *
+     * @param pageNumber number of page get all avatars
+     * @param pageSize quality avatars on the page
+     * @return avatars on one page
+     */
     @Override
     public Collection<Avatar> getAllAvatars(Integer pageNumber, Integer pageSize) {
         logger.info("Was invoked method for get all avatars");
