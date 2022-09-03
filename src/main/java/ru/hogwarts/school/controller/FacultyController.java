@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
-import ru.hogwarts.school.service.FacultyService;
+import ru.hogwarts.school.service.impl.FacultyServiceImpl;
 
 import java.util.Collection;
 
@@ -21,10 +21,10 @@ import java.util.Collection;
 public class FacultyController {
 
     private final String TAG_FACULTY = "Faculty";
-    private final FacultyService facultyService;
+    private final FacultyServiceImpl facultyService;
     Logger logger = LoggerFactory.getLogger(FacultyController.class);
 
-    public FacultyController(FacultyService facultyService) {
+    public FacultyController(FacultyServiceImpl facultyService) {
         this.facultyService = facultyService;
     }
 
