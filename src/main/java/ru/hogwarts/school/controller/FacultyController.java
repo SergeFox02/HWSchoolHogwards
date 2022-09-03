@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import ru.hogwarts.school.model.Faculty;
-import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.impl.FacultyServiceImpl;
 
 import java.util.Collection;
@@ -43,7 +42,7 @@ public class FacultyController {
             tags = TAG_FACULTY
     )
     @GetMapping
-    public ResponseEntity<Collection<Faculty>> getAllFaculties() {
+    public ResponseEntity<?> getAllFaculties() {
         logger.info("Call getAllFaculties");
         return ResponseEntity.ok(facultyService.getAllFaculties());
     }
@@ -71,7 +70,7 @@ public class FacultyController {
             tags = TAG_FACULTY
     )
     @GetMapping("{id}")
-    public ResponseEntity<Faculty> findFaculty(@PathVariable Long id) {
+    public ResponseEntity<?> findFaculty(@PathVariable Long id) {
         logger.info("Call method findFaculty id = {}", id);
         Faculty findFaculty = facultyService.findFaculty(id);
         if (findFaculty == null) {
@@ -95,9 +94,9 @@ public class FacultyController {
             tags = TAG_FACULTY
     )
     @GetMapping("/filter/{color}")
-    public Collection<Faculty> filterFacultiesByColor(@PathVariable String color) {
+    public ResponseEntity<?> filterFacultiesByColor(@PathVariable String color) {
         logger.info("Call method filterFacultiesByColor color = {}", color);
-        return facultyService.filterFacultiesByColor(color);
+        return ResponseEntity.ok(facultyService.filterFacultiesByColor(color));
     }
 
     @Operation(
@@ -115,10 +114,10 @@ public class FacultyController {
             tags = TAG_FACULTY
     )
     @GetMapping("/filter")
-    public Collection<Faculty> filterFacultyByColorOrName(@RequestParam(required = false) String color,
+    public ResponseEntity<?> filterFacultyByColorOrName(@RequestParam(required = false) String color,
                                                           @RequestParam(required = false) String name) {
         logger.info("Call method filterFacultyByColorOrName color = {}, name = {}", color, name);
-        return facultyService.filterFacultiesByColorOrName(color, name);
+        return ResponseEntity.ok(facultyService.filterFacultiesByColorOrName(color, name));
     }
 
     @Operation(
@@ -136,9 +135,9 @@ public class FacultyController {
             tags = TAG_FACULTY
     )
     @GetMapping("/findStudentsOfFaculty/{id}")
-    public Collection<Student> findStudentsOfFaculty(@PathVariable Long id) {
+    public ResponseEntity<?> findStudentsOfFaculty(@PathVariable Long id) {
         logger.info("Call method findStudentsOfFaculty id = {}", id);
-        return facultyService.findStudentsOfFaculty(id);
+        return ResponseEntity.ok(facultyService.findStudentsOfFaculty(id));
     }
 
     @Operation(
@@ -156,9 +155,9 @@ public class FacultyController {
             tags = TAG_FACULTY
     )
     @GetMapping("/longest-name")
-    public String longestNameOfFaculty() {
+    public ResponseEntity<?> longestNameOfFaculty() {
         logger.info("Call method longestNameOfFaculty");
-        return facultyService.longestNameOfFaculty();
+        return ResponseEntity.ok(facultyService.longestNameOfFaculty());
     }
 
     @Operation(
@@ -183,9 +182,9 @@ public class FacultyController {
             tags = TAG_FACULTY
     )
     @PostMapping
-    public Faculty createFaculty(@RequestBody Faculty faculty) {
+    public ResponseEntity<?> createFaculty(@RequestBody Faculty faculty) {
         logger.info("Call method createFaculty faculty = {}", faculty );
-        return facultyService.createFaculty(faculty);
+        return ResponseEntity.ok(facultyService.createFaculty(faculty));
     }
 
     @Operation(
@@ -218,7 +217,7 @@ public class FacultyController {
             tags = TAG_FACULTY
     )
     @PutMapping
-    public ResponseEntity<Faculty> editFaculty(@RequestBody Faculty faculty) {
+    public ResponseEntity<?> editFaculty(@RequestBody Faculty faculty) {
         logger.info("Call method editFaculty faculty = {}", faculty );
         Faculty editFaculty = facultyService.editFaculty(faculty);
         if (editFaculty == null) {
@@ -250,7 +249,7 @@ public class FacultyController {
             tags = TAG_FACULTY
     )
     @DeleteMapping("{id}")
-    public ResponseEntity<Faculty> deleteFaculty(@PathVariable Long id) {
+    public ResponseEntity<?> deleteFaculty(@PathVariable Long id) {
         logger.info("Call method deleteFaculty id = {}", id);
         Faculty deleteFaculty = facultyService.deleteFaculty(id);
         if (deleteFaculty == null) {
