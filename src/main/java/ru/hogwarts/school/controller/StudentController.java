@@ -149,7 +149,7 @@ public class StudentController {
     public ResponseEntity<Collection<Student>> filterStudentsByAgeBetween(@RequestParam Integer minAge,
                                                           @RequestParam Integer maxAge) {
         logger.info("Call method filterStudentsByAgeBetween");
-        if (minAge == null || maxAge == null || minAge > maxAge){
+        if (minAge == null || maxAge == null || minAge < 0 || minAge > maxAge){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.ok(studentService.filterAgeStudents(minAge, maxAge));
@@ -359,7 +359,7 @@ public class StudentController {
     @GetMapping(value = "/filter-start-with-A")
     public Collection<String> filterStudentsStartNameWithA() {
         logger.info("Call method filterStudentsStartNameWithA");
-        return studentService.filterStudentsBuOrderStartNameA();
+        return studentService.filterStudentsByOrderStartNameA();
     }
 
     @Operation(
@@ -379,7 +379,7 @@ public class StudentController {
     @GetMapping(value = "/average-age-by-stream")
     public ResponseEntity<OptionalDouble> getAverageAgeByStream() {
         logger.info("Call method getAverageAgeByStream");
-        return ResponseEntity.ok(studentService.averageAge());
+        return ResponseEntity.ok(studentService.getAverageAgeWithStream());
     }
 
     @Operation(

@@ -30,8 +30,8 @@ public interface StudentService {
 
     Collection<Student> getFiveLastStudents();
 
-    Collection<String> filterStudentsBuOrderStartNameA();
+    Collection<String> filterStudentsByOrderStartNameA();
 
-    OptionalDouble averageAge();
+    OptionalDouble getAverageAgeWithStream();
 
 }
