@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,9 +29,9 @@ public class MainController {
             tags = "School Hogwarts (home page)"
     )
     @GetMapping
-    public String helloMessage() {
+    public ResponseEntity<?> helloMessage() {
         logger.info("Call helloMessage in MainController");
-        return "Hello yang Mag, in our School";
+        return ResponseEntity.ok("Hello yang Mag, in our School");
     }
 
 }
