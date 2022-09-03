@@ -16,7 +16,7 @@ import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.AvatarService;
-import ru.hogwarts.school.service.StudentService;
+import ru.hogwarts.school.service.impl.StudentServiceImpl;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -30,12 +30,12 @@ import java.util.OptionalDouble;
 public class StudentController {
 
     private final String TAG_STUDENT = "Students";
-    private final StudentService studentService;
+    private final StudentServiceImpl studentService;
     private final AvatarService avatarService;
 
     Logger logger = LoggerFactory.getLogger(StudentController.class);
 
-    public StudentController(StudentService studentService, AvatarService avatarService) {
+    public StudentController(StudentServiceImpl studentService, AvatarService avatarService) {
         this.studentService = studentService;
         this.avatarService = avatarService;
     }
