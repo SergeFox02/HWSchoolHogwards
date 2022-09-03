@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
-import ru.hogwarts.school.service.AvatarService;
+import ru.hogwarts.school.service.impl.AvatarServiceImpl;
 import ru.hogwarts.school.service.impl.StudentServiceImpl;
 
 import javax.servlet.http.HttpServletResponse;
@@ -30,11 +30,11 @@ public class StudentController {
 
     private final String TAG_STUDENT = "Students";
     private final StudentServiceImpl studentService;
-    private final AvatarService avatarService;
+    private final AvatarServiceImpl avatarService;
 
     Logger logger = LoggerFactory.getLogger(StudentController.class);
 
-    public StudentController(StudentServiceImpl studentService, AvatarService avatarService) {
+    public StudentController(StudentServiceImpl studentService, AvatarServiceImpl avatarService) {
         this.studentService = studentService;
         this.avatarService = avatarService;
     }
