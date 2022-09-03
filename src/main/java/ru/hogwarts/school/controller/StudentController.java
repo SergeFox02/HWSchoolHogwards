@@ -23,7 +23,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
-import java.util.OptionalDouble;
 
 @RestController
 @RequestMapping("/student")
@@ -55,7 +54,7 @@ public class StudentController {
             tags = TAG_STUDENT
     )
     @GetMapping
-    public ResponseEntity<Collection<Student>> getAllStudents() {
+    public ResponseEntity<?> getAllStudents() {
         logger.info("Call method getAllStudents");
         return ResponseEntity.ok(studentService.getAllStudents());
     }
@@ -83,7 +82,7 @@ public class StudentController {
             tags = TAG_STUDENT
     )
     @GetMapping("{id}")
-    public ResponseEntity<Student> findStudent(@PathVariable Long id) {
+    public ResponseEntity<?> findStudent(@PathVariable Long id) {
         logger.info("Call method findStudent");
         Student student = studentService.findStudent(id);
         if (student == null) {
@@ -115,7 +114,7 @@ public class StudentController {
             tags = TAG_STUDENT
     )
     @GetMapping("/filter/{age}")
-    public ResponseEntity<Collection<Student>> filterStudentsByAge(@PathVariable Integer age) {
+    public ResponseEntity<?> filterStudentsByAge(@PathVariable Integer age) {
         logger.info("Call method filterStudentsByAge");
         if (age == null || age <= 0){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -146,7 +145,7 @@ public class StudentController {
             tags = TAG_STUDENT
     )
     @GetMapping("filter")
-    public ResponseEntity<Collection<Student>> filterStudentsByAgeBetween(@RequestParam Integer minAge,
+    public ResponseEntity<?> filterStudentsByAgeBetween(@RequestParam Integer minAge,
                                                           @RequestParam Integer maxAge) {
         logger.info("Call method filterStudentsByAgeBetween");
         if (minAge == null || maxAge == null || minAge < 0 || minAge > maxAge){
@@ -178,7 +177,7 @@ public class StudentController {
             tags = TAG_STUDENT
     )
     @GetMapping("find-faculty-of-student/{id}")
-    public ResponseEntity<Faculty> findFacultyOfStudent(@PathVariable Long id) {
+    public ResponseEntity<?> findFacultyOfStudent(@PathVariable Long id) {
         logger.info("Call method findFacultyOfStudent");
         Faculty faculty = studentService.findFacultyOfStudent(id);
         if (faculty == null) {
@@ -210,7 +209,7 @@ public class StudentController {
             tags = TAG_STUDENT
     )
     @GetMapping(value = "/{id}/avatar/dataBase")
-    public ResponseEntity<byte[]> downloadAvatar(@PathVariable Long id) {
+    public ResponseEntity<?> downloadAvatar(@PathVariable Long id) {
         logger.info("Call method downloadAvatar");
         Avatar avatar = avatarService.findAvatar(id);
 
@@ -236,7 +235,7 @@ public class StudentController {
             tags = TAG_STUDENT
     )
     @GetMapping(value = "/avatars")
-    public ResponseEntity<Collection<Avatar>> listOfAvatars(@RequestParam("page") Integer pageNumber,
+    public ResponseEntity<?> listOfAvatars(@RequestParam("page") Integer pageNumber,
                                                             @RequestParam("size") Integer pageSize) {
         logger.info("Call method listOfAvatars");
         return ResponseEntity.ok(avatarService.getAllAvatars(pageNumber, pageSize));
@@ -297,9 +296,9 @@ public class StudentController {
             tags = TAG_STUDENT
     )
     @GetMapping(value = "/amount")
-    public Long getAmountOfStudents() {
+    public ResponseEntity<?> getAmountOfStudents() {
         logger.info("Call method getAmountOfStudents");
-        return studentService.getAmountOfStudents();
+        return ResponseEntity.ok(studentService.getAmountOfStudents());
     }
 
     @Operation(
@@ -317,9 +316,9 @@ public class StudentController {
             tags = TAG_STUDENT
     )
     @GetMapping(value = "average-age")
-    public Double getAverageAge() {
+    public ResponseEntity<?> getAverageAge() {
         logger.info("Call method getAverageAge");
-        return studentService.getAverageAge();
+        return ResponseEntity.ok(studentService.getAverageAge());
     }
 
     @Operation(
@@ -337,9 +336,9 @@ public class StudentController {
             tags = TAG_STUDENT
     )
     @GetMapping(value = "/five-last-student")
-    public Collection<Student> getFiveLastStudents() {
+    public ResponseEntity<?> getFiveLastStudents() {
         logger.info("Call method getFiveLastStudents");
-        return studentService.getFiveLastStudents();
+        return ResponseEntity.ok(studentService.getFiveLastStudents());
     }
 
     @Operation(
@@ -357,9 +356,9 @@ public class StudentController {
             tags = TAG_STUDENT
     )
     @GetMapping(value = "/filter-start-with-A")
-    public Collection<String> filterStudentsStartNameWithA() {
+    public ResponseEntity<?> filterStudentsStartNameWithA() {
         logger.info("Call method filterStudentsStartNameWithA");
-        return studentService.filterStudentsByOrderStartNameA();
+        return ResponseEntity.ok(studentService.filterStudentsByOrderStartNameA());
     }
 
     @Operation(
@@ -377,7 +376,7 @@ public class StudentController {
             tags = TAG_STUDENT
     )
     @GetMapping(value = "/average-age-by-stream")
-    public ResponseEntity<OptionalDouble> getAverageAgeByStream() {
+    public ResponseEntity<?> getAverageAgeByStream() {
         logger.info("Call method getAverageAgeByStream");
         return ResponseEntity.ok(studentService.getAverageAgeWithStream());
     }
@@ -416,7 +415,7 @@ public class StudentController {
             tags = TAG_STUDENT
     )
     @PostMapping(value = "/{id}/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> upLoadAvatar(@PathVariable Long id, @RequestParam MultipartFile avatar) throws IOException {
+    public ResponseEntity<?> upLoadAvatar(@PathVariable Long id, @RequestParam MultipartFile avatar) throws IOException {
         logger.info("Call method upLoadAvatar");
         if (avatar.getSize() > 1024 * 300) {
             logger.warn("Warning: avatar is to big");
@@ -448,9 +447,9 @@ public class StudentController {
             tags = TAG_STUDENT
     )
     @PostMapping
-    public Student createStudent(@RequestBody Student student) {
+    public ResponseEntity<?> createStudent(@RequestBody Student student) {
         logger.info("Call method createStudent");
-        return studentService.createStudent(student);
+        return ResponseEntity.ok(studentService.createStudent(student));
     }
 
     @Operation(
@@ -483,7 +482,7 @@ public class StudentController {
             tags = TAG_STUDENT
     )
     @PutMapping
-    public ResponseEntity<Student> editStudent(@RequestBody Student student) {
+    public ResponseEntity<?> editStudent(@RequestBody Student student) {
         logger.info("Call method editStudent");
         Student editStudent = studentService.editStudent(student);
         if (editStudent == null) {
@@ -515,7 +514,7 @@ public class StudentController {
             tags = TAG_STUDENT
     )
     @DeleteMapping("{id}")
-    public ResponseEntity<Student> deleteStudent(@PathVariable Long id) {
+    public ResponseEntity<?> deleteStudent(@PathVariable Long id) {
         logger.info("Call method deleteStudent");
         Student deleteStudent = studentService.deleteStudent(id);
         if (deleteStudent == null) {
