@@ -13,8 +13,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
-import ru.hogwarts.school.repositories.FacultyRepository;
-import ru.hogwarts.school.service.impl.FacultyServiceImpl;
+import ru.hogwarts.school.repositories.AvatarRepository;
+import ru.hogwarts.school.repositories.StudentRepository;
+import ru.hogwarts.school.service.impl.AvatarServiceImpl;
+import ru.hogwarts.school.service.impl.StudentServiceImpl;
 
 import java.util.*;
 
@@ -24,130 +26,142 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = FacultyController.class)
-class FacultyControllerTest {
+@WebMvcTest(controllers = StudentController.class)
+class StudentControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    FacultyRepository facultyRepository;
+    StudentRepository studentRepository;
+
+    @MockBean
+    AvatarRepository avatarRepository;
 
     @SpyBean
-    private FacultyServiceImpl facultyService;
+    private StudentServiceImpl facultyService;
+
+
+    @SpyBean
+    private AvatarServiceImpl avatarService;
 
     @InjectMocks
-    private FacultyController facultyController;
+    private StudentController studentController;
 
-    private final JSONObject facultyObject = new JSONObject();
+    private final JSONObject studentObject = new JSONObject();
 
-    private final static String LOCAL_URL = "http://localhost:8080/faculty/";
+    private final static String LOCAL_URL = "http://localhost:8080/student/";
     private final static Long ID = 1l;
-    private final static String NAME_OF_FACULTY = "Black magic";
-    private final static String COLOR_OF_FACULTY = "black";
+    private final static String NAME = "Garry";
+    private final static int AGE = 18;
+    private final static Student STUDENT = new Student();
     private final static Faculty FACULTY = new Faculty();
     private final static Collection<Student> STUDENTS = new ArrayList<>();
     private final static Collection<Faculty> FACULTIES = new LinkedList<>();
 
     @BeforeEach
     private void StartData() {
-        facultyObject.put("id", ID);
-        facultyObject.put("name", NAME_OF_FACULTY);
-        facultyObject.put("color", COLOR_OF_FACULTY);
-        facultyObject.put("students", STUDENTS);
-        FACULTY.setId(ID);
-        FACULTY.setName(NAME_OF_FACULTY);
-        FACULTY.setColor(COLOR_OF_FACULTY);
-        FACULTY.setStudents(STUDENTS);
+        studentObject.put("id", ID);
+        studentObject.put("name", NAME);
+        studentObject.put("age", AGE);
+        studentObject.put("faculty", FACULTY);
+        STUDENT.setId(ID);
+        STUDENT.setName(NAME);
+        STUDENT.setAge(AGE);
+        STUDENT.setFaculty(FACULTY);
     }
 
     @Test
     public void contextLoads(){
-        assertThat(facultyController).isNotNull();
+        assertThat(studentController).isNotNull();
     }
 
     @Test
-    public void findFaculty() throws Exception{
-        when(facultyRepository.findById(any(Long.class))).thenReturn(Optional.of(FACULTY));
+    public void findStudent() throws Exception{
+        when(studentRepository.findById(any(Long.class))).thenReturn(Optional.of(STUDENT));
         mockMvc.perform(MockMvcRequestBuilders
                         .get(LOCAL_URL + ID)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(ID))
-                .andExpect(jsonPath("$.name").value(NAME_OF_FACULTY))
-                .andExpect(jsonPath("$.color").value(COLOR_OF_FACULTY));
+                .andExpect(jsonPath("$.name").value(NAME))
+                .andExpect(jsonPath("$.age").value(AGE))
+                .andExpect(jsonPath("$.faculty").value(FACULTY));
     }
 
     @Test
-    public void getAllFaculties() throws Exception{
-        when(facultyRepository.findAll()).thenReturn((List<Faculty>) FACULTIES);
+    public void getAllStudents() throws Exception{
+        when(studentRepository.findAll()).thenReturn((List<Student>) STUDENTS);
         mockMvc.perform(MockMvcRequestBuilders
                         .get(LOCAL_URL)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").value(FACULTIES));
+                .andExpect(jsonPath("$").value(STUDENTS));
     }
 
     @Test
-    public void createFaculty() throws Exception {
-        when(facultyRepository.save(any(Faculty.class))).thenReturn(FACULTY);
+    public void createStudent() throws Exception {
+        when(studentRepository.save(any(Student.class))).thenReturn(STUDENT);
         mockMvc.perform(MockMvcRequestBuilders
                         .post(LOCAL_URL)
-                        .content(facultyObject.toString())
+                        .content(studentObject.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(ID))
-                .andExpect(jsonPath("$.name").value(NAME_OF_FACULTY))
-                .andExpect(jsonPath("$.color").value(COLOR_OF_FACULTY));
+                .andExpect(jsonPath("$.name").value(NAME))
+                .andExpect(jsonPath("$.age").value(AGE))
+                .andExpect(jsonPath("$.faculty").value(FACULTY));
     }
 
     @Test
-    public void editFaculty() throws Exception {
-        when(facultyRepository.save(any(Faculty.class))).thenReturn(FACULTY);
-        when(facultyRepository.findById(any(Long.class))).thenReturn(Optional.of(FACULTY));
+    public void editStudent() throws Exception {
+        when(studentRepository.save(any(Student.class))).thenReturn(STUDENT);
+        when(studentRepository.findById(any(Long.class))).thenReturn(Optional.of(STUDENT));
         mockMvc.perform(MockMvcRequestBuilders
                         .put(LOCAL_URL)
-                        .content(facultyObject.toString())
+                        .content(studentObject.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(ID))
-                .andExpect(jsonPath("$.name").value(NAME_OF_FACULTY))
-                .andExpect(jsonPath("$.color").value(COLOR_OF_FACULTY));
+                .andExpect(jsonPath("$.name").value(NAME))
+                .andExpect(jsonPath("$.age").value(AGE))
+                .andExpect(jsonPath("$.faculty").value(FACULTY));
     }
 
     @Test
-    public void editFacultyIfNotFound() throws Exception {
-        when(facultyRepository.findById(any(Long.class))).thenReturn(Optional.empty());
+    public void editStudentIfNotFound() throws Exception {
+        when(studentRepository.findById(any(Long.class))).thenReturn(Optional.empty());
         mockMvc.perform(MockMvcRequestBuilders
                         .put(LOCAL_URL)
-                        .content(facultyObject.toString())
+                        .content(studentObject.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void deleteFaculty() throws Exception {
-        when(facultyRepository.findById(any(Long.class))).thenReturn(Optional.of(FACULTY));
+    public void deleteStudent() throws Exception {
+        when(studentRepository.findById(any(Long.class))).thenReturn(Optional.of(STUDENT));
         mockMvc.perform(MockMvcRequestBuilders
                         .delete(LOCAL_URL + ID)
-                        .content(facultyObject.toString())
+                        .content(studentObject.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(ID))
-                .andExpect(jsonPath("$.name").value(NAME_OF_FACULTY))
-                .andExpect(jsonPath("$.color").value(COLOR_OF_FACULTY));
+                .andExpect(jsonPath("$.name").value(NAME))
+                .andExpect(jsonPath("$.age").value(AGE))
+                .andExpect(jsonPath("$.faculty").value(FACULTY));
     }
 
     @Test
-    public void deleteFacultyIfNotFound() throws Exception {
-        when(facultyRepository.findById(any(Long.class))).thenReturn(Optional.empty());
+    public void deleteStudentIfNotFound() throws Exception {
+        when(studentRepository.findById(any(Long.class))).thenReturn(Optional.empty());
         mockMvc.perform(MockMvcRequestBuilders
                         .delete(LOCAL_URL + ID)
-                        .content(facultyObject.toString())
+                        .content(studentObject.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
