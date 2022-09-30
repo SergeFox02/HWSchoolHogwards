@@ -41,8 +41,7 @@ public class AvatarServiceImpl implements AvatarService {
 
     public AvatarServiceImpl(AvatarRepository avatarRepository, StudentService studentService) {
         this.avatarRepository = avatarRepository;
-        this.studentService =studentService;
-
+        this.studentService = studentService;
     }
 
     /**
