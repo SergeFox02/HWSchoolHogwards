@@ -38,7 +38,6 @@ public class AvatarServiceImpl implements AvatarService {
 
     Logger logger = LoggerFactory.getLogger(AvatarService.class);
 
-
     public AvatarServiceImpl(AvatarRepository avatarRepository, StudentService studentService) {
         this.avatarRepository = avatarRepository;
         this.studentService = studentService;
