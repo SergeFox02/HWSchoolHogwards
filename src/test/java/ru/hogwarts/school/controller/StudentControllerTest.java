@@ -51,7 +51,7 @@ class StudentControllerTest {
     private final JSONObject studentObject = new JSONObject();
 
     private final static String LOCAL_URL = "http://localhost:8080/student/";
-    private final static Long ID = 1l;
+    private final static Long ID = 1L;
     private final static String NAME = "Garry";
     private final static int AGE = 18;
     private final static Student STUDENT = new Student();

@@ -42,7 +42,7 @@ class FacultyControllerTest {
     private final JSONObject facultyObject = new JSONObject();
 
     private final static String LOCAL_URL = "http://localhost:8080/faculty/";
-    private final static Long ID = 1l;
+    private final static Long ID = 1L;
     private final static String NAME_OF_FACULTY = "Black magic";
     private final static String COLOR_OF_FACULTY = "black";
     private final static Faculty FACULTY = new Faculty();
